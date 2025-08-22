@@ -1,0 +1,103 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_DB: test_db
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
+      mosquitto:
+        image: eclipse-mosquitto:2.0
+        ports:
+          - 1883:1883
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.11'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest pytest-asyncio coverage
+
+    - name: Run linting
+      run: |
+        pip install flake8 black isort
+        flake8 app/ --max-line-length=88 --extend-ignore=E203,W503
+        black --check app/
+        isort --check-only app/
+
+    - name: Run tests
+      env:
+        DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db
+        MQTT_BROKER: localhost
+        MQTT_PORT: 1883
+        SECRET_KEY: test-secret-key
+        ENCRYPTION_KEY: test-encryption-key
+        ADMIN_USER: admin
+        ADMIN_PASS: supersecret
+      run: |
+        coverage run -m pytest app/tests/ -v
+        coverage report -m
+
+    - name: Build Docker images
+      run: |
+        docker build -t mqtt2yandex-api .
+        docker build -f Dockerfile.streamlit -t mqtt2yandex-streamlit .
+
+  build-and-deploy:
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v2
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+    - name: Build and push API image
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        file: ./Dockerfile
+        push: true
+        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/mqtt2yandex-api:latest
+
+    - name: Build and push Streamlit image
+      uses: docker/build-push-action@v4
+      with:
+        context: .
+        file: ./Dockerfile.streamlit
+        push: true
+        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/mqtt2yandex-streamlit:latest

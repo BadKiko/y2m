@@ -1,0 +1,155 @@
+version: '3.8'
+
+services:
+  # Backend API
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      - APP_ENV=production
+      - DATABASE_URL=postgresql://postgres:password@db:5432/mqtt2yandex
+      - MQTT_BROKER=mosquitto
+      - MQTT_PORT=1883
+      - YAPI_URL=http://yapi:8080
+      - SECRET_KEY=your-secret-key-change-in-production
+      - ENCRYPTION_KEY=your-encryption-key-change-in-production
+      - ADMIN_USER=admin
+      - ADMIN_PASS=supersecret
+    depends_on:
+      - db
+      - mosquitto
+    volumes:
+      - ./logs:/app/logs
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app.rule=Host(`${TRAFFIC_HOST:-mqtt2yandex.localhost}`)"
+      - "traefik.http.routers.app.entrypoints=websecure"
+      - "traefik.http.routers.app.tls.certresolver=myresolver"
+      - "traefik.http.services.app.loadbalancer.server.port=8000"
+    networks:
+      - mqtt2yandex
+    restart: unless-stopped
+
+  # Streamlit UI
+  streamlit:
+    build:
+      context: .
+      dockerfile: Dockerfile.streamlit
+    ports:
+      - "8501:8501"
+    environment:
+      - API_BASE_URL=http://app:8000
+    depends_on:
+      - app
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.streamlit.rule=Host(`${TRAFFIC_HOST:-mqtt2yandex.localhost}`) && Path(`/ui`)"
+      - "traefik.http.routers.streamlit.entrypoints=websecure"
+      - "traefik.http.routers.streamlit.tls.certresolver=myresolver"
+      - "traefik.http.services.streamlit.loadbalancer.server.port=8501"
+    networks:
+      - mqtt2yandex
+    restart: unless-stopped
+
+  # PostgreSQL Database
+  db:
+    image: postgres:15-alpine
+    environment:
+      - POSTGRES_DB=mqtt2yandex
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - mqtt2yandex
+    restart: unless-stopped
+
+  # MQTT Broker
+  mosquitto:
+    image: eclipse-mosquitto:2.0
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    networks:
+      - mqtt2yandex
+    restart: unless-stopped
+
+  # Yandex2MQTT (Optional)
+  yandex2mqtt:
+    image: lasthead0/yandex2mqtt:latest
+    environment:
+      - MQTT_HOST=mosquitto
+      - MQTT_PORT=1883
+      - MQTT_USERNAME=
+      - MQTT_PASSWORD=
+    depends_on:
+      - mosquitto
+    networks:
+      - mqtt2yandex
+    restart: unless-stopped
+
+  # YAPI for silent commands (Optional)
+  yapi:
+    image: ebuyan/yapi:latest
+    ports:
+      - "8080:8080"
+    environment:
+      - MQTT_HOST=mosquitto
+      - MQTT_PORT=1883
+    depends_on:
+      - mosquitto
+    networks:
+      - mqtt2yandex
+    restart: unless-stopped
+
+  # Traefik Reverse Proxy
+  traefik:
+    image: traefik:v2.10
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--providers.docker.exposedbydefault=false"
+      - "--entrypoints.web.address=:80"
+      - "--entrypoints.websecure.address=:443"
+      - "--certificatesresolvers.myresolver.acme.tlschallenge=true"
+      - "--certificatesresolvers.myresolver.acme.email=${ACME_EMAIL:-admin@example.com}"
+      - "--certificatesresolvers.myresolver.acme.storage=/letsencrypt/acme.json"
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"  # Traefik dashboard
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - letsencrypt:/letsencrypt
+    networks:
+      - mqtt2yandex
+    restart: unless-stopped
+
+  # pgAdmin (Optional)
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=admin@example.com
+      - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+    networks:
+      - mqtt2yandex
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  letsencrypt:
+
+networks:
+  mqtt2yandex:
+    driver: bridge
