@@ -23,22 +23,53 @@ class StationAction(Action):
         }
 
     async def execute(self, payload: dict) -> ActionResult:
-        # Minimal HTTP mimic of yapi API contract
-        token = payload.get("oauthToken")
-        device_id = payload.get("deviceId")
-        command = payload.get("command")
-        body: dict = {"deviceId": device_id, "command": command}
-        if command == "sendText":
-            body["text"] = payload.get("text", "")
-        if command == "setVolume":
-            body["volume"] = payload.get("volume", 0.5)
-        if command == "rewind":
-            body["position"] = payload.get("position", 0)
-
-        # In real device, endpoints differ; for MVP we expose backend's own proxy endpoint later.
-        # Here we just return payload to indicate execution placeholder.
-        # To align with https://github.com/ebuyan/yapi contract, we'd POST to local service.
-        # For now, simulate success.
-        return {"ok": True, "output": f"station command {command} prepared"}
+        """Выполняет команду на Яндекс Станции через yapi контейнер"""
+        import logging
+        logger = logging.getLogger(__name__)
+        
+        try:
+            # Получаем параметры
+            oauth_token = payload.get("oauthToken")
+            device_id = payload.get("deviceId")
+            command = payload.get("command")
+            
+            if not oauth_token or not device_id or not command:
+                return {"ok": False, "error": "Missing required parameters: oauthToken, deviceId, command"}
+            
+            # Формируем тело запроса для yapi
+            body = {"command": command}
+            if command == "sendText":
+                body["text"] = payload.get("text", "")
+            elif command == "setVolume":
+                body["volume"] = payload.get("volume", 0.5)
+            elif command == "rewind":
+                body["position"] = payload.get("position", 0)
+            
+            logger.info(f"Executing station command: {command} on device {device_id}")
+            
+            # Отправляем команду в yapi контейнер
+            async with httpx.AsyncClient(timeout=10.0) as client:
+                yapi_url = "http://yapi:8001"
+                
+                logger.info(f"Sending request to yapi at {yapi_url} with data: {body}")
+                
+                response = await client.post(yapi_url, json=body)
+                
+                logger.info(f"yapi response: {response.status_code} - {response.text}")
+                
+                if response.status_code == 200:
+                    return {"ok": True, "output": f"Station command '{command}' executed successfully"}
+                else:
+                    return {"ok": False, "error": f"yapi error: {response.status_code} - {response.text}"}
+                    
+        except httpx.ConnectError:
+            logger.error("yapi container not available")
+            return {"ok": False, "error": "yapi container not available"}
+        except httpx.TimeoutException:
+            logger.error("yapi request timeout")
+            return {"ok": False, "error": "yapi request timeout"}
+        except Exception as e:
+            logger.error(f"Station action error: {e}")
+            return {"ok": False, "error": str(e)}
 
 

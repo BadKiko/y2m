@@ -6,7 +6,10 @@
       "description": "Датчик движения, датчик влажности и другие датчики",
       "category": "sensors",
       "capabilities": [],
-      "properties": ["devices.properties.float"]
+      "properties": [
+        "devices.properties.event",
+        "devices.properties.float"
+      ]
     },
     {
       "type": "devices.types.sensor.button",
@@ -14,7 +17,9 @@
       "description": "Устройство, которое сообщает о нажатии на кнопку",
       "category": "sensors",
       "capabilities": [],
-      "properties": ["devices.properties.event"]
+      "properties": [
+        "devices.properties.event"
+      ]
     },
     {
       "type": "devices.types.sensor.climate",
@@ -22,7 +27,9 @@
       "description": "Устройство, которое сообщает о температуре и влажности в помещении",
       "category": "sensors",
       "capabilities": [],
-      "properties": ["devices.properties.float"]
+      "properties": [
+        "devices.properties.float"
+      ]
     },
     {
       "type": "devices.types.sensor.gas",
@@ -30,7 +37,9 @@
       "description": "Устройство, которое сообщает о наличии газа в помещении",
       "category": "sensors",
       "capabilities": [],
-      "properties": ["devices.properties.event"]
+      "properties": [
+        "devices.properties.event"
+      ]
     },
     {
       "type": "devices.types.sensor.illumination",
@@ -38,7 +47,9 @@
       "description": "Устройство, которое сообщает об уровне освещенности",
       "category": "sensors",
       "capabilities": [],
-      "properties": ["devices.properties.float"]
+      "properties": [
+        "devices.properties.float"
+      ]
     },
     {
       "type": "devices.types.sensor.motion",
@@ -46,7 +57,9 @@
       "description": "Устройство, которое сообщает о наличии движения",
       "category": "sensors",
       "capabilities": [],
-      "properties": ["devices.properties.event"]
+      "properties": [
+        "devices.properties.event"
+      ]
     },
     {
       "type": "devices.types.sensor.open",
@@ -54,7 +67,9 @@
       "description": "Устройство, которое сообщает об открытии/закрытии двери",
       "category": "sensors",
       "capabilities": [],
-      "properties": ["devices.properties.event"]
+      "properties": [
+        "devices.properties.event"
+      ]
     },
     {
       "type": "devices.types.sensor.smoke",
@@ -62,7 +77,9 @@
       "description": "Устройство, которое сообщает о наличии дыма в помещении",
       "category": "sensors",
       "capabilities": [],
-      "properties": ["devices.properties.event"]
+      "properties": [
+        "devices.properties.event"
+      ]
     },
     {
       "type": "devices.types.sensor.vibration",
@@ -70,7 +87,9 @@
       "description": "Устройство, которое сообщает о физическом воздействии: вибрация, падение, переворачивание",
       "category": "sensors",
       "capabilities": [],
-      "properties": ["devices.properties.event"]
+      "properties": [
+        "devices.properties.event"
+      ]
     },
     {
       "type": "devices.types.sensor.water_leak",
@@ -78,7 +97,9 @@
       "description": "Устройство, которое сообщает о протечке воды",
       "category": "sensors",
       "capabilities": [],
-      "properties": ["devices.properties.event"]
+      "properties": [
+        "devices.properties.event"
+      ]
     },
     {
       "type": "devices.types.smart_meter",
@@ -86,7 +107,9 @@
       "description": "Устройство, которое измеряет расход чего-либо (универсальный тип для счетчиков)",
       "category": "meters",
       "capabilities": [],
-      "properties": ["devices.properties.float"]
+      "properties": [
+        "devices.properties.float"
+      ]
     },
     {
       "type": "devices.types.smart_meter.cold_water",
@@ -94,7 +117,9 @@
       "description": "Устройство, которое измеряет расход холодной воды",
       "category": "meters",
       "capabilities": [],
-      "properties": ["devices.properties.float"]
+      "properties": [
+        "devices.properties.float"
+      ]
     },
     {
       "type": "devices.types.smart_meter.electricity",
@@ -102,7 +127,9 @@
       "description": "Устройство, которое измеряет расход электроэнергии",
       "category": "meters",
       "capabilities": [],
-      "properties": ["devices.properties.float"]
+      "properties": [
+        "devices.properties.float"
+      ]
     },
     {
       "type": "devices.types.smart_meter.gas",
@@ -110,7 +137,9 @@
       "description": "Устройство, которое измеряет расход газа",
       "category": "meters",
       "capabilities": [],
-      "properties": ["devices.properties.float"]
+      "properties": [
+        "devices.properties.float"
+      ]
     },
     {
       "type": "devices.types.smart_meter.heat",
@@ -118,7 +147,9 @@
       "description": "Устройство, которое измеряет расход тепла",
       "category": "meters",
       "capabilities": [],
-      "properties": ["devices.properties.float"]
+      "properties": [
+        "devices.properties.float"
+      ]
     },
     {
       "type": "devices.types.smart_meter.hot_water",
@@ -126,14 +157,25 @@
       "description": "Устройство, которое измеряет расход горячей воды",
       "category": "meters",
       "capabilities": [],
-      "properties": ["devices.properties.float"]
+      "properties": [
+        "devices.properties.float"
+      ]
     },
     {
       "type": "devices.types.camera",
       "name": "Видеокамера",
       "description": "Видеокамера, видео-домофон, дверной глазок с камерой",
       "category": "media",
-      "capabilities": ["devices.capabilities.on_off"],
+      "capabilities": [
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.video_stream",
+          "instances": []
+        }
+      ],
       "properties": []
     },
     {
@@ -141,7 +183,7 @@
       "name": "Медиаустройство",
       "description": "DVD-плеер и другие медиаустройства",
       "category": "media",
-      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.range", "devices.capabilities.toggle"],
+      "capabilities": [],
       "properties": []
     },
     {
@@ -149,7 +191,7 @@
       "name": "Спутниковый ресивер",
       "description": "Спутниковый ресивер, ИК-пульт от ресивера, AV-ресивер",
       "category": "media",
-      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.range", "devices.capabilities.toggle"],
+      "capabilities": [],
       "properties": []
     },
     {
@@ -157,7 +199,86 @@
       "name": "Умный телевизор",
       "description": "Умный телевизор, ИК-пульт от телевизора, медиаприставка, ресивер",
       "category": "media",
-      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.range", "devices.capabilities.toggle"],
+      "capabilities": [
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.mode",
+          "instances": [
+            {
+              "function": "input_source",
+              "values": [
+                "one",
+                "two",
+                "three",
+                "four",
+                "five",
+                "six",
+                "seven",
+                "eight",
+                "nine",
+                "ten"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.range",
+          "instances": [
+            {
+              "function": "channel",
+              "values": []
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.range",
+          "instances": [
+            {
+              "function": "volume",
+              "values": []
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.toggle",
+          "instances": [
+            {
+              "function": "backlight",
+              "values": []
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.toggle",
+          "instances": [
+            {
+              "function": "controls_locked",
+              "values": []
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.toggle",
+          "instances": [
+            {
+              "function": "mute",
+              "values": []
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.toggle",
+          "instances": [
+            {
+              "function": "pause",
+              "values": []
+            }
+          ]
+        }
+      ],
       "properties": []
     },
     {
@@ -165,7 +286,7 @@
       "name": "Умная ТВ-приставка",
       "description": "Умная ТВ-приставка, ИК-пульт от ТВ-приставки",
       "category": "media",
-      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.range", "devices.capabilities.toggle"],
+      "capabilities": [],
       "properties": []
     },
     {
@@ -173,7 +294,70 @@
       "name": "Кухонная техника",
       "description": "Холодильник, духовой шкаф",
       "category": "kitchen",
-      "capabilities": ["devices.capabilities.on_off"],
+      "capabilities": [
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.mode",
+          "instances": [
+            {
+              "function": "program",
+              "values": [
+                "one",
+                "two",
+                "three",
+                "four",
+                "five",
+                "six",
+                "seven",
+                "eight",
+                "nine",
+                "ten",
+                "express",
+                "normal"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.range",
+          "instances": [
+            {
+              "function": "temperature",
+              "values": []
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.toggle",
+          "instances": [
+            {
+              "function": "controls_locked",
+              "values": []
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.toggle",
+          "instances": [
+            {
+              "function": "keep_warm",
+              "values": []
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.toggle",
+          "instances": [
+            {
+              "function": "pause",
+              "values": []
+            }
+          ]
+        }
+      ],
       "properties": []
     },
     {
@@ -181,7 +365,47 @@
       "name": "Кофеварка",
       "description": "Кофеварка, кофемашина",
       "category": "kitchen",
-      "capabilities": ["devices.capabilities.on_off"],
+      "capabilities": [
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.mode",
+          "instances": [
+            {
+              "function": "coffee_mode",
+              "values": [
+                "americano",
+                "cappuccino",
+                "double_espresso",
+                "espresso",
+                "latte"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.mode",
+          "instances": [
+            {
+              "function": "program",
+              "values": [
+                "one",
+                "two",
+                "three",
+                "four",
+                "five",
+                "six",
+                "seven",
+                "eight",
+                "nine",
+                "ten"
+              ]
+            }
+          ]
+        }
+      ],
       "properties": []
     },
     {
@@ -189,7 +413,70 @@
       "name": "Умный чайник",
       "description": "Умный чайник, термопот",
       "category": "kitchen",
-      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.range"],
+      "capabilities": [
+        {
+          "type": "devices.capabilities.color_setting",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.mode",
+          "instances": [
+            {
+              "function": "tea_mode",
+              "values": [
+                "black_tea",
+                "flower_tea",
+                "green_tea",
+                "herbal_tea",
+                "oolong_tea",
+                "puerh_tea",
+                "red_tea",
+                "white_tea"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.range",
+          "instances": [
+            {
+              "function": "temperature",
+              "values": []
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.toggle",
+          "instances": [
+            {
+              "function": "backlight",
+              "values": []
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.toggle",
+          "instances": [
+            {
+              "function": "controls_locked",
+              "values": []
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.toggle",
+          "instances": [
+            {
+              "function": "keep_warm",
+              "values": []
+            }
+          ]
+        }
+      ],
       "properties": []
     },
     {
@@ -197,7 +484,74 @@
       "name": "Мультиварка",
       "description": "Устройство, которое выполняет функции мультиварки",
       "category": "kitchen",
-      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.mode"],
+      "capabilities": [
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.toggle",
+          "instances": [
+            {
+              "function": "controls_locked",
+              "values": []
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.toggle",
+          "instances": [
+            {
+              "function": "keep_warm",
+              "values": []
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.range",
+          "instances": [
+            {
+              "function": "temperature",
+              "values": []
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.mode",
+          "instances": [
+            {
+              "function": "program",
+              "values": [
+                "vacuum",
+                "boiling",
+                "baking",
+                "dessert",
+                "baby_food",
+                "fowl",
+                "frying",
+                "yogurt",
+                "cereals",
+                "macaroni",
+                "milk_porridge",
+                "multicooker",
+                "steam",
+                "pasta",
+                "pizza",
+                "pilaf",
+                "sauce",
+                "soup",
+                "stewing",
+                "slow_cook",
+                "deep_fryer",
+                "bread",
+                "aspic",
+                "cheesecake",
+                "preheat"
+              ]
+            }
+          ]
+        }
+      ],
       "properties": []
     },
     {
@@ -205,7 +559,38 @@
       "name": "Посудомоечная машина",
       "description": "Устройство для мытья посуды",
       "category": "kitchen",
-      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.mode"],
+      "capabilities": [
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.toggle",
+          "instances": [
+            {
+              "function": "controls_locked",
+              "values": []
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.mode",
+          "instances": [
+            {
+              "function": "dishwashing",
+              "values": [
+                "auto",
+                "eco",
+                "quiet",
+                "express",
+                "glass",
+                "intensive",
+                "pre_rinse"
+              ]
+            }
+          ]
+        }
+      ],
       "properties": []
     },
     {
@@ -213,7 +598,37 @@
       "name": "Утюг",
       "description": "Утюг, парогенератор",
       "category": "appliances",
-      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.range"],
+      "capabilities": [
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.range",
+          "instances": [
+            {
+              "function": "temperature",
+              "values": []
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.mode",
+          "instances": [
+            {
+              "function": "program",
+              "values": [
+                "turbo",
+                "eco",
+                "steam",
+                "auto",
+                "one",
+                "two"
+              ]
+            }
+          ]
+        }
+      ],
       "properties": []
     },
     {
@@ -221,7 +636,54 @@
       "name": "Робот-пылесос",
       "description": "Устройство, которое выполняет функцию пылеса",
       "category": "appliances",
-      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.mode"],
+      "capabilities": [
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.mode",
+          "instances": [
+            {
+              "function": "cleanup_mode",
+              "values": [
+                "auto",
+                "eco",
+                "express",
+                "normal",
+                "quiet",
+                "wet_cleaning",
+                "dry_cleaning",
+                "mixed_cleaning"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.mode",
+          "instances": [
+            {
+              "function": "work_speed",
+              "values": [
+                "auto",
+                "fast",
+                "medium",
+                "slow",
+                "turbo"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.toggle",
+          "instances": [
+            {
+              "function": "pause",
+              "values": []
+            }
+          ]
+        }
+      ],
       "properties": []
     },
     {
@@ -229,7 +691,51 @@
       "name": "Стиральная машина",
       "description": "Устройство для стирки белья",
       "category": "appliances",
-      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.mode"],
+      "capabilities": [
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.toggle",
+          "instances": [
+            {
+              "function": "pause",
+              "values": []
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.toggle",
+          "instances": [
+            {
+              "function": "controls_locked",
+              "values": []
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.mode",
+          "instances": [
+            {
+              "function": "program",
+              "values": [
+                "one",
+                "two",
+                "three",
+                "four",
+                "five",
+                "six",
+                "seven",
+                "eight",
+                "nine",
+                "ten",
+                "express"
+              ]
+            }
+          ]
+        }
+      ],
       "properties": []
     },
     {
@@ -237,7 +743,12 @@
       "name": "Поилка",
       "description": "Устройство, которое наполняет водой миску домашнего животного",
       "category": "pet_devices",
-      "capabilities": ["devices.capabilities.on_off"],
+      "capabilities": [
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        }
+      ],
       "properties": []
     },
     {
@@ -245,7 +756,12 @@
       "name": "Кормушка",
       "description": "Устройство для кормления домашних животных",
       "category": "pet_devices",
-      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.mode"],
+      "capabilities": [
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        }
+      ],
       "properties": []
     },
     {
@@ -253,7 +769,46 @@
       "name": "Увлажнитель воздуха",
       "description": "Устройство, которое регулирует влажность в помещении",
       "category": "climate",
-      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.range"],
+      "capabilities": [
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.mode",
+          "instances": [
+            {
+              "function": "fan_speed",
+              "values": [
+                "auto",
+                "high",
+                "low",
+                "medium",
+                "quiet",
+                "turbo"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.range",
+          "instances": [
+            {
+              "function": "humidity",
+              "values": []
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.toggle",
+          "instances": [
+            {
+              "function": "ionization",
+              "values": []
+            }
+          ]
+        }
+      ],
       "properties": []
     },
     {
@@ -261,7 +816,37 @@
       "name": "Очиститель воздуха",
       "description": "Очиститель воздуха, мойка воздуха",
       "category": "climate",
-      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.mode"],
+      "capabilities": [
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.mode",
+          "instances": [
+            {
+              "function": "fan_speed",
+              "values": [
+                "auto",
+                "high",
+                "low",
+                "medium",
+                "quiet",
+                "turbo"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.toggle",
+          "instances": [
+            {
+              "function": "ionization",
+              "values": []
+            }
+          ]
+        }
+      ],
       "properties": []
     },
     {
@@ -269,23 +854,230 @@
       "name": "Термостат",
       "description": "Водонагреватель, теплый пол, обогреватель, электровентилятор",
       "category": "climate",
-      "capabilities": ["devices.capabilities.range", "devices.capabilities.mode"],
-      "properties": ["devices.properties.float"]
+      "capabilities": [
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.range",
+          "instances": [
+            {
+              "function": "temperature",
+              "values": []
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.mode",
+          "instances": [
+            {
+              "function": "fan_speed",
+              "values": [
+                "auto",
+                "high",
+                "low",
+                "medium",
+                "quiet",
+                "turbo"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.mode",
+          "instances": [
+            {
+              "function": "thermostat",
+              "values": [
+                "auto",
+                "cool",
+                "dry",
+                "fan_only",
+                "heat"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.mode",
+          "instances": [
+            {
+              "function": "heat",
+              "values": [
+                "auto",
+                "max",
+                "min",
+                "normal",
+                "turbo"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.toggle",
+          "instances": [
+            {
+              "function": "oscillation",
+              "values": []
+            }
+          ]
+        }
+      ],
+      "properties": [
+        "devices.properties.float"
+      ]
     },
     {
       "type": "devices.types.thermostat.ac",
       "name": "Кондиционер",
       "description": "Устройство для управления микроклиматом в помещении",
       "category": "climate",
-      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.range", "devices.capabilities.mode"],
-      "properties": ["devices.properties.float"]
+      "capabilities": [
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.range",
+          "instances": [
+            {
+              "function": "temperature",
+              "values": []
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.mode",
+          "instances": [
+            {
+              "function": "fan_speed",
+              "values": [
+                "auto",
+                "high",
+                "low",
+                "medium",
+                "quiet",
+                "turbo"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.mode",
+          "instances": [
+            {
+              "function": "swing",
+              "values": [
+                "auto",
+                "horizontal",
+                "stationary",
+                "vertical"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.mode",
+          "instances": [
+            {
+              "function": "thermostat",
+              "values": [
+                "auto",
+                "cool",
+                "dry",
+                "eco",
+                "fan_only",
+                "heat"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.toggle",
+          "instances": [
+            {
+              "function": "ionization",
+              "values": []
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.toggle",
+          "instances": [
+            {
+              "function": "oscillation",
+              "values": []
+            }
+          ]
+        }
+      ],
+      "properties": [
+        "devices.properties.float"
+      ]
     },
     {
       "type": "devices.types.ventilation",
       "name": "Система вентиляции",
       "description": "Бризер, вытяжка, система приточной вентиляции",
       "category": "climate",
-      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.mode"],
+      "capabilities": [
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.range",
+          "instances": [
+            {
+              "function": "temperature",
+              "values": []
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.mode",
+          "instances": [
+            {
+              "function": "fan_speed",
+              "values": [
+                "auto",
+                "high",
+                "low",
+                "medium",
+                "quiet",
+                "turbo"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.mode",
+          "instances": [
+            {
+              "function": "ventilation_mode",
+              "values": [
+                "auto",
+                "supply_air",
+                "extraction_air"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.mode",
+          "instances": [
+            {
+              "function": "thermostat",
+              "values": [
+                "auto",
+                "fan_only",
+                "heat"
+              ]
+            }
+          ]
+        }
+      ],
       "properties": []
     },
     {
@@ -293,7 +1085,35 @@
       "name": "Вентилятор",
       "description": "Устройство, которое выполняет функцию вентилятора",
       "category": "climate",
-      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.mode"],
+      "capabilities": [
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.mode",
+          "instances": [
+            {
+              "function": "fan_speed",
+              "values": [
+                "low",
+                "medium",
+                "high",
+                "turbo"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.toggle",
+          "instances": [
+            {
+              "function": "oscillation",
+              "values": []
+            }
+          ]
+        }
+      ],
       "properties": []
     },
     {
@@ -301,7 +1121,34 @@
       "name": "Светильник",
       "description": "Лампочка, светильник, ночник",
       "category": "lighting",
-      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.color_setting"],
+      "capabilities": [
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.color_setting",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.range",
+          "instances": [
+            {
+              "function": "brightness",
+              "values": []
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.toggle",
+          "instances": [
+            {
+              "function": "backlight",
+              "values": []
+            }
+          ]
+        }
+      ],
       "properties": []
     },
     {
@@ -309,7 +1156,34 @@
       "name": "Настольная лампа",
       "description": "Устройство, которое выполняет функцию настольного светильника",
       "category": "lighting",
-      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.color_setting"],
+      "capabilities": [
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.color_setting",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.range",
+          "instances": [
+            {
+              "function": "brightness",
+              "values": []
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.toggle",
+          "instances": [
+            {
+              "function": "backlight",
+              "values": []
+            }
+          ]
+        }
+      ],
       "properties": []
     },
     {
@@ -317,7 +1191,34 @@
       "name": "Люстра",
       "description": "Устройство, которое выполняет функцию люстры",
       "category": "lighting",
-      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.color_setting"],
+      "capabilities": [
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.color_setting",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.range",
+          "instances": [
+            {
+              "function": "brightness",
+              "values": []
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.toggle",
+          "instances": [
+            {
+              "function": "backlight",
+              "values": []
+            }
+          ]
+        }
+      ],
       "properties": []
     },
     {
@@ -325,7 +1226,25 @@
       "name": "Диодная лента",
       "description": "Устройство с управляемой диодной лентой",
       "category": "lighting",
-      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.color_setting"],
+      "capabilities": [
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.color_setting",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.range",
+          "instances": [
+            {
+              "function": "brightness",
+              "values": []
+            }
+          ]
+        }
+      ],
       "properties": []
     },
     {
@@ -333,7 +1252,25 @@
       "name": "Умная розетка",
       "description": "Розетка",
       "category": "electrical",
-      "capabilities": ["devices.capabilities.on_off"],
+      "capabilities": [
+        {
+          "type": "devices.capabilities.color_setting",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.toggle",
+          "instances": [
+            {
+              "function": "backlight",
+              "values": []
+            }
+          ]
+        }
+      ],
       "properties": []
     },
     {
@@ -341,7 +1278,21 @@
       "name": "Выключатель",
       "description": "Настенный выключатель света, тумблер, умная кнопка",
       "category": "electrical",
-      "capabilities": ["devices.capabilities.on_off"],
+      "capabilities": [
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.toggle",
+          "instances": [
+            {
+              "function": "backlight",
+              "values": []
+            }
+          ]
+        }
+      ],
       "properties": []
     },
     {
@@ -349,7 +1300,12 @@
       "name": "Умное реле",
       "description": "Автомат в электрическом щитке, умное реле",
       "category": "electrical",
-      "capabilities": ["devices.capabilities.on_off"],
+      "capabilities": [
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        }
+      ],
       "properties": []
     },
     {
@@ -357,7 +1313,34 @@
       "name": "Устройство открытия/закрытия",
       "description": "Дверь, ворота, окно, ставни",
       "category": "automation",
-      "capabilities": ["devices.capabilities.on_off"],
+      "capabilities": [
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.mode",
+          "instances": [
+            {
+              "function": "work_speed",
+              "values": [
+                "fast",
+                "medium",
+                "slow"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.range",
+          "instances": [
+            {
+              "function": "open",
+              "values": []
+            }
+          ]
+        }
+      ],
       "properties": []
     },
     {
@@ -365,7 +1348,34 @@
       "name": "Шторы",
       "description": "Шторы, жалюзи",
       "category": "automation",
-      "capabilities": ["devices.capabilities.on_off"],
+      "capabilities": [
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.mode",
+          "instances": [
+            {
+              "function": "work_speed",
+              "values": [
+                "fast",
+                "medium",
+                "slow"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "devices.capabilities.range",
+          "instances": [
+            {
+              "function": "open",
+              "values": []
+            }
+          ]
+        }
+      ],
       "properties": []
     },
     {
@@ -373,7 +1383,21 @@
       "name": "Шаровой кран",
       "description": "Устройство, которое выполняет функцию шарового крана",
       "category": "automation",
-      "capabilities": ["devices.capabilities.on_off"],
+      "capabilities": [
+        {
+          "type": "devices.capabilities.on_off",
+          "instances": []
+        },
+        {
+          "type": "devices.capabilities.range",
+          "instances": [
+            {
+              "function": "open",
+              "values": []
+            }
+          ]
+        }
+      ],
       "properties": []
     },
     {
@@ -381,9 +1405,8 @@
       "name": "Другое устройство",
       "description": "Остальные устройства",
       "category": "other",
-      "capabilities": ["devices.capabilities.on_off"],
+      "capabilities": [],
       "properties": []
     }
   ]
 }
-

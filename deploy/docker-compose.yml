@@ -72,6 +72,21 @@ services:
     ports:
       - "${WEB_PORT:-5173}:5173"
 
+  yapi:
+    image: ghcr.io/ebuyan/yapi:latest
+    container_name: y2m_yapi
+    restart: unless-stopped
+    environment:
+      - OAUTH_TOKEN=${YANDEX_OAUTH_TOKEN}
+      - DEVICE_ID=${YANDEX_DEVICE_ID}
+      - HTTP_HOST=0.0.0.0:8001
+    volumes:
+      - yapi_logs:/var/log/yapi
+    networks:
+      - y2m_net
+    ports:
+      - "${YAPI_PORT:-8001}:8001"
+
 networks:
   y2m_net:
     driver: bridge
@@ -80,5 +95,6 @@ volumes:
   mosquitto_data:
   mosquitto_log:
   postgres_data:
+  yapi_logs:
 
 

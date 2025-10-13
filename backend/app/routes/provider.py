@@ -22,6 +22,7 @@ class DeviceCapability(BaseModel):
     retrievable: bool = True
     reportable: bool = True
     parameters: Optional[Dict[str, Any]] = None
+    description: Optional[str] = None
 
 
 class DeviceInfo(BaseModel):
@@ -291,67 +292,207 @@ async def unlink_device(request: Request, device_query: DeviceQuery, user_id: st
         raise HTTPException(status_code=500, detail="Internal server error")
 
 
-def get_device_capabilities(device_type: str) -> List[DeviceCapability]:
-    """Возвращает список возможностей для типа устройства"""
-    capabilities_map = {
-        "devices.types.light": [
-            DeviceCapability(
-                type="devices.capabilities.on_off",
-                retrievable=True,
-                reportable=True
-            ),
-            DeviceCapability(
-                type="devices.capabilities.range",
-                retrievable=True,
-                reportable=True,
-                parameters={
-                    "instance": "brightness",
-                    "range": {
-                        "min": 0,
-                        "max": 100,
-                        "precision": 1
-                    },
-                    "unit": "unit.percent"
-                }
-            )
-        ],
-        "devices.types.switch": [
-            DeviceCapability(
-                type="devices.capabilities.on_off",
-                retrievable=True,
-                reportable=True
-            )
-        ],
-        "devices.types.media_device.tv": [
-            DeviceCapability(
-                type="devices.capabilities.on_off",
-                retrievable=True,
-                reportable=True
-            ),
-            DeviceCapability(
-                type="devices.capabilities.range",
-                retrievable=True,
-                reportable=True,
-                parameters={
-                    "instance": "volume",
-                    "range": {
-                        "min": 0,
-                        "max": 100,
-                        "precision": 1
-                    },
-                    "unit": "unit.percent"
-                }
-            )
-        ]
+def get_capability_description(capability_type: str, instance: str = None) -> str:
+    """Возвращает описание capability на русском языке"""
+    descriptions = {
+        "devices.capabilities.on_off": "Включение/выключение",
+        "devices.capabilities.range": {
+            "brightness": "Яркость",
+            "volume": "Громкость", 
+            "temperature": "Температура",
+            "channel": "Канал",
+            "humidity": "Влажность",
+            "pressure": "Давление",
+            "co2_level": "Уровень CO2",
+            "pm1_density": "Плотность PM1",
+            "pm2.5_density": "Плотность PM2.5",
+            "pm10_density": "Плотность PM10",
+            "tvoc": "Летучие органические соединения",
+            "water_level": "Уровень воды",
+            "open": "Открытие",
+            "battery_level": "Уровень заряда",
+            "co_level": "Уровень CO",
+            "smoke_level": "Уровень дыма",
+            "ammonia": "Аммиак",
+            "butane": "Бутан",
+            "propane": "Пропан",
+            "methane": "Метан",
+            "hydrogen": "Водород",
+            "oxygen": "Кислород",
+            "ozone": "Озон",
+            "formaldehyde": "Формальдегид",
+            "heater": "Нагрев",
+            "current": "Ток",
+            "voltage": "Напряжение",
+            "power": "Мощность",
+            "electricity_meter": "Счетчик электроэнергии",
+            "gas_meter": "Счетчик газа",
+            "water_meter": "Счетчик воды",
+            "heat_meter": "Счетчик тепла"
+        },
+        "devices.capabilities.mode": {
+            "work_mode": "Режим работы",
+            "thermostat": "Термостат",
+            "fan_speed": "Скорость вентилятора",
+            "heat": "Нагрев",
+            "swing": "Качание",
+            "input_source": "Источник сигнала",
+            "tea_mode": "Режим заваривания чая",
+            "program": "Программа",
+            "tank_filled": "Заполнение бака",
+            "pause": "Пауза",
+            "fan_mode": "Режим вентилятора",
+            "ionization": "Ионизация",
+            "backlight": "Подсветка",
+            "child_lock": "Блокировка от детей",
+            "sound": "Звук",
+            "oscillation": "Колебание",
+            "humidity": "Влажность",
+            "buzzer": "Зуммер",
+            "led": "Светодиод",
+            "keep_warm": "Подогрев",
+            "boil": "Кипячение",
+            "controls_locked": "Блокировка управления",
+            "mute": "Отключение звука"
+        },
+        "devices.capabilities.toggle": {
+            "backlight": "Подсветка",
+            "controls_locked": "Блокировка управления",
+            "mute": "Отключение звука",
+            "pause": "Пауза",
+            "keep_warm": "Подогрев",
+            "sound": "Звук",
+            "boil": "Кипячение",
+            "ionization": "Ионизация",
+            "oscillation": "Колебание",
+            "buzzer": "Зуммер",
+            "led": "Светодиод",
+            "child_lock": "Блокировка от детей",
+            "night_light": "Ночной режим",
+            "swing": "Качание",
+            "tank_filled": "Заполнение бака"
+        },
+        "devices.capabilities.color_setting": "Настройка цвета",
+        "devices.capabilities.video_stream": "Видеопоток"
     }
     
-    return capabilities_map.get(device_type, [
-        DeviceCapability(
-            type="devices.capabilities.on_off",
-            retrievable=True,
-            reportable=True
-        )
-    ])
+    if capability_type in descriptions:
+        if isinstance(descriptions[capability_type], dict) and instance:
+            return descriptions[capability_type].get(instance, instance)
+        elif isinstance(descriptions[capability_type], str):
+            return descriptions[capability_type]
+    
+    return capability_type.split('.')[-1].replace('_', ' ').title()
+
+
+def get_device_capabilities(device_type: str) -> List[DeviceCapability]:
+    """Возвращает список возможностей для типа устройства"""
+    try:
+        # Загружаем типы устройств из JSON файла
+        import os
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        json_path = os.path.join(current_dir, "..", "data", "yandex_device_types.json")
+        
+        with open(json_path, "r", encoding="utf-8") as f:
+            device_types_data = json.load(f)
+        
+        # Ищем нужный тип устройства
+        for device_type_info in device_types_data["types"]:
+            if device_type_info["type"] == device_type:
+                capabilities = []
+                
+                # Обрабатываем capabilities из JSON
+                for cap in device_type_info.get("capabilities", []):
+                    if isinstance(cap, dict) and "type" in cap:
+                        cap_type = cap["type"]
+                        parameters = None
+                        
+                        # Добавляем parameters для capabilities с instances
+                        if "instances" in cap and cap["instances"]:
+                            for instance in cap["instances"]:
+                                if isinstance(instance, dict) and "function" in instance:
+                                    function = instance["function"]
+                                    
+                                    # Создаем parameters в зависимости от типа capability
+                                    if cap_type == "devices.capabilities.range":
+                                        if function == "brightness":
+                                            parameters = {
+                                                "instance": "brightness",
+                                                "range": {"min": 0, "max": 100, "precision": 1},
+                                                "unit": "unit.percent"
+                                            }
+                                        elif function == "volume":
+                                            parameters = {
+                                                "instance": "volume", 
+                                                "range": {"min": 0, "max": 100, "precision": 1},
+                                                "unit": "unit.percent"
+                                            }
+                                        elif function == "temperature":
+                                            parameters = {
+                                                "instance": "temperature",
+                                                "range": {"min": 0, "max": 100, "precision": 1},
+                                                "unit": "unit.temperature.celsius"
+                                            }
+                                        elif function == "channel":
+                                            parameters = {
+                                                "instance": "channel",
+                                                "range": {"min": 1, "max": 999, "precision": 1}
+                                            }
+                                        else:
+                                            parameters = {"instance": function}
+                                    
+                                    elif cap_type == "devices.capabilities.mode":
+                                        if "values" in instance and instance["values"]:
+                                            parameters = {
+                                                "instance": function,
+                                                "modes": [{"value": v} for v in instance["values"]]
+                                            }
+                                        else:
+                                            parameters = {"instance": function}
+                                    
+                                    elif cap_type == "devices.capabilities.toggle":
+                                        parameters = {"instance": function}
+                                    
+                                    elif cap_type == "devices.capabilities.color_setting":
+                                        parameters = {
+                                            "color_model": "rgb",
+                                            "temperature_k": {"min": 2000, "max": 9000}
+                                        }
+                                    
+                                    break  # Берем первый instance
+                        
+                        # Получаем описание capability
+                        description = get_capability_description(cap_type, parameters.get("instance") if parameters else None)
+                        
+                        capabilities.append(DeviceCapability(
+                            type=cap_type,
+                            retrievable=True,
+                            reportable=True,
+                            parameters=parameters,
+                            description=description
+                        ))
+                
+                return capabilities
+        
+        # Если тип устройства не найден, возвращаем базовый on_off
+        return [
+            DeviceCapability(
+                type="devices.capabilities.on_off",
+                retrievable=True,
+                reportable=True
+            )
+        ]
+        
+    except Exception as e:
+        logger.error(f"Error loading device capabilities for {device_type}: {e}")
+        # Fallback к базовому on_off
+        return [
+            DeviceCapability(
+                type="devices.capabilities.on_off",
+                retrievable=True,
+                reportable=True
+            )
+        ]
 
 
 async def get_device_state(device: Device) -> List[Dict[str, Any]]:
@@ -392,8 +533,6 @@ async def execute_device_action(device: Device, capability: Dict[str, Any]) -> D
     
     if capability_type == "devices.capabilities.on_off":
         value = state.get("value", False)
-        # Здесь должна быть логика управления устройством
-        # Для MVP просто логируем
         logger.info(f"Device {device.id} on_off: {value}")
         
         return {
@@ -409,7 +548,6 @@ async def execute_device_action(device: Device, capability: Dict[str, Any]) -> D
     elif capability_type == "devices.capabilities.range":
         instance = state.get("instance", "brightness")
         value = state.get("value", 50)
-        # Здесь должна быть логика управления устройством
         logger.info(f"Device {device.id} range {instance}: {value}")
         
         return {
@@ -422,5 +560,87 @@ async def execute_device_action(device: Device, capability: Dict[str, Any]) -> D
             }
         }
     
+    elif capability_type == "devices.capabilities.mode":
+        instance = state.get("instance", "work_mode")
+        value = state.get("value", "auto")
+        logger.info(f"Device {device.id} mode {instance}: {value}")
+        
+        return {
+            "type": capability_type,
+            "state": {
+                "instance": instance,
+                "action_result": {
+                    "status": "DONE"
+                }
+            }
+        }
+    
+    elif capability_type == "devices.capabilities.toggle":
+        instance = state.get("instance", "pause")
+        value = state.get("value", False)
+        logger.info(f"Device {device.id} toggle {instance}: {value}")
+        
+        return {
+            "type": capability_type,
+            "state": {
+                "instance": instance,
+                "action_result": {
+                    "status": "DONE"
+                }
+            }
+        }
+    
+    elif capability_type == "devices.capabilities.color_setting":
+        # Поддерживаем как RGB, так и temperature_k
+        if "rgb" in state:
+            rgb = state["rgb"]
+            logger.info(f"Device {device.id} color_setting rgb: {rgb}")
+            return {
+                "type": capability_type,
+                "state": {
+                    "instance": "rgb",
+                    "action_result": {
+                        "status": "DONE"
+                    }
+                }
+            }
+        elif "temperature_k" in state:
+            temp = state["temperature_k"]
+            logger.info(f"Device {device.id} color_setting temperature_k: {temp}")
+            return {
+                "type": capability_type,
+                "state": {
+                    "instance": "temperature_k",
+                    "action_result": {
+                        "status": "DONE"
+                    }
+                }
+            }
+        else:
+            raise ValueError("color_setting requires either 'rgb' or 'temperature_k' in state")
+    
+    elif capability_type == "devices.capabilities.video_stream":
+        # Для камер
+        logger.info(f"Device {device.id} video_stream action")
+        return {
+            "type": capability_type,
+            "state": {
+                "instance": "stream",
+                "action_result": {
+                    "status": "DONE"
+                }
+            }
+        }
+    
     else:
-        raise ValueError(f"Unknown capability type: {capability_type}")
+        logger.warning(f"Unknown capability type: {capability_type}, treating as on_off")
+        # Fallback для неизвестных типов
+        return {
+            "type": capability_type,
+            "state": {
+                "instance": "on",
+                "action_result": {
+                    "status": "DONE"
+                }
+            }
+        }

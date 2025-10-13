@@ -5,6 +5,7 @@ from typing import Optional
 
 from models.device import Device
 from services.adb_pool import ensure_connected
+from .provider import get_device_capabilities
 
 
 router = APIRouter(prefix="/api/devices", tags=["devices"])
@@ -70,5 +71,15 @@ async def delete_device(device_id: int):
     await device.delete()
     
     return {"ok": True}
+
+
+@router.get("/{device_id}/capabilities")
+async def device_capabilities(device_id: int):
+    device = await Device.get_or_none(id=device_id)
+    if not device:
+        raise HTTPException(status_code=404, detail="Device not found")
+    caps = get_device_capabilities(device.yandex_type)
+    # pydantic v2 BaseModel supports model_dump
+    return {"capabilities": [c.model_dump() for c in caps]}
 
 
