@@ -58,9 +58,17 @@ async def update_device(device_id: int, payload: DeviceUpdate):
 
 @router.delete("/{device_id}")
 async def delete_device(device_id: int):
-    deleted = await Device.filter(id=device_id).delete()
-    if not deleted:
+    device = await Device.get_or_none(id=device_id)
+    if not device:
         raise HTTPException(status_code=404, detail="Device not found")
+    
+    # Удаляем все привязки устройства
+    from models.binding import Binding
+    await Binding.filter(device_id=device_id).delete()
+    
+    # Удаляем само устройство
+    await device.delete()
+    
     return {"ok": True}
 
 

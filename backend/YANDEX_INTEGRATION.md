@@ -20,6 +20,7 @@
 ├── GET "/user/devices"        # Список устройств
 ├── POST "/user/devices/query"  # Состояния устройств
 ├── POST "/user/devices/action" # Управление устройствами
+├── POST "/user/devices/unlink" # Отвязка конкретного устройства
 └── POST "/user/unlink"        # Отвязка аккаунта
 ```
 

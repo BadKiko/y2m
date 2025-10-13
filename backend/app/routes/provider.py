@@ -249,6 +249,48 @@ async def unlink_user(request: Request, user_id: str = Depends(get_user_from_tok
         raise HTTPException(status_code=500, detail="Internal server error")
 
 
+@router.post("/user/devices/unlink")
+async def unlink_device(request: Request, device_query: DeviceQuery, user_id: str = Depends(get_user_from_token)):
+    """Обработка отвязки конкретного устройства от Яндекс Дома"""
+    try:
+        request_id = request.headers.get("X-Request-Id") or str(uuid.uuid4())
+        results = []
+        
+        for device_query_item in device_query.devices:
+            device_id = device_query_item["id"]
+            device = await Device.get_or_none(id=device_id)
+            
+            if device:
+                # Удаляем все привязки устройства
+                from models.binding import Binding
+                await Binding.filter(device_id=device_id).delete()
+                
+                # Удаляем само устройство
+                await device.delete()
+                
+                results.append({
+                    "id": device_id,
+                    "status": "unlinked"
+                })
+            else:
+                results.append({
+                    "id": device_id,
+                    "error_code": "DEVICE_NOT_FOUND",
+                    "error_message": "Device not found"
+                })
+        
+        return {
+            "request_id": request_id,
+            "payload": {
+                "devices": results
+            }
+        }
+        
+    except Exception as e:
+        logger.error(f"Error unlinking device: {e}")
+        raise HTTPException(status_code=500, detail="Internal server error")
+
+
 def get_device_capabilities(device_type: str) -> List[DeviceCapability]:
     """Возвращает список возможностей для типа устройства"""
     capabilities_map = {

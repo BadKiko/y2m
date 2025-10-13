@@ -29,7 +29,8 @@
 2. **Список устройств**: `GET https://y2m.badkiko.ru/v1.0/user/devices`
 3. **Состояния устройств**: `POST https://y2m.badkiko.ru/v1.0/user/devices/query`
 4. **Управление устройствами**: `POST https://y2m.badkiko.ru/v1.0/user/devices/action`
-5. **Отвязка аккаунта**: `POST https://y2m.badkiko.ru/v1.0/user/unlink`
+5. **Отвязка устройства**: `POST https://y2m.badkiko.ru/v1.0/user/devices/unlink`
+6. **Отвязка аккаунта**: `POST https://y2m.badkiko.ru/v1.0/user/unlink`
 
 ### OAuth Discovery
 - **OAuth Discovery**: `GET https://y2m.badkiko.ru/.well-known/oauth-authorization-server`
