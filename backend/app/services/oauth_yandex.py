@@ -3,6 +3,7 @@ from urllib.parse import urlencode
 from settings import settings
 from services.crypto import encrypt
 from models.user_token import UserToken
+import hashlib
 
 
 AUTH_URL = "https://oauth.yandex.ru/authorize"
@@ -56,11 +57,15 @@ async def save_tokens(token_payload: dict) -> int:
         # Если не удалось получить user_id, используем fallback
         user_id = "unknown"
     
+    # Хэш токена (для поиска по Bearer без хранения открытого значения)
+    access_token_hash = hashlib.sha256(access_token.encode("utf-8")).hexdigest() if access_token else None
+
     # For MVP we store one record
     rec = await UserToken.create(
         user_id=user_id,
         provider="yandex",
         access_token=encrypt(access_token),
+        access_token_hash=access_token_hash,
         refresh_token=encrypt(refresh_token) if refresh_token else None,
         expires_at=None,
     )

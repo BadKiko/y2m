@@ -1,5 +1,5 @@
 from fastapi import APIRouter, HTTPException, Request, Query, Form
-from fastapi.responses import RedirectResponse
+from fastapi.responses import RedirectResponse, HTMLResponse
 from pydantic import BaseModel
 from typing import Optional
 import httpx
@@ -73,10 +73,21 @@ async def authorize(
     ).first()
     
     if not token_record:
-        # Если пользователь не авторизован, перенаправляем на авторизацию
-        logger.info("User not authenticated, redirecting to web app")
-        auth_url = f"{settings.web_url}/auth/yandex/login?state={state or ''}"
-        return RedirectResponse(url=auth_url)
+        # Если пользователь не авторизован, отдаем минимальную страницу входа для навыка
+        logger.info("User not authenticated, serving skill login page")
+        login_page = f"""
+        <html><head><meta charset='utf-8'></head>
+        <body>
+          <script>
+            // перенаправляем пользователя на внутренний логин с возвратом обратно в /dialog/authorize
+            const params = new URLSearchParams({{
+              state: '{state or ''}',
+            }});
+            window.location.href = '{settings.web_url}/auth/yandex/login' + '?' + params.toString();
+          </script>
+        </body></html>
+        """
+        return HTMLResponse(content=login_page)
     
     # Пользователь уже авторизован, генерируем код авторизации
     logger.info(f"User authenticated, generating auth code for user_token_id={token_record.id}")

@@ -9,6 +9,7 @@ import uuid
 from models.device import Device
 from models.user_token import UserToken
 from services.crypto import decrypt
+import hashlib
 
 router = APIRouter(prefix="/v1.0", tags=["provider"])
 security = HTTPBearer()
@@ -58,17 +59,30 @@ async def get_user_from_token(credentials: HTTPAuthorizationCredentials = Depend
         
         logger.info(f"Found token record: id={token_record.id}, user_id={token_record.user_id}")
         
-        # Расшифровываем токен
-        decrypted_token = decrypt(token_record.access_token)
-        
-        # Проверяем токен (в реальном проекте здесь должна быть валидация JWT)
-        if decrypted_token != credentials.credentials:
-            logger.error(f"Token mismatch: expected={decrypted_token[:20]}..., got={credentials.credentials[:20]}...")
-            # Для отладки: попробуем сравнить с зашифрованным токеном
-            if credentials.credentials == token_record.access_token:
-                logger.info("Token matches encrypted version, using it")
-            else:
+        # Сопоставляем по хэшу без хранения открытого токена
+        bearer = credentials.credentials
+        bearer_hash = hashlib.sha256(bearer.encode("utf-8")).hexdigest()
+
+        # Ищем по хэшу в БД
+        token_record = await UserToken.filter(provider="yandex", access_token_hash=bearer_hash).first()
+
+        # Fallback: если старые записи без hash — проверим расшифровкой и одновременно бэконим hash
+        if not token_record:
+            legacy = await UserToken.filter(provider="yandex").first()
+            if not legacy:
+                logger.error("No token found in database")
+                raise HTTPException(status_code=401, detail="Token not found")
+            try:
+                decrypted_token = decrypt(legacy.access_token)
+            except Exception:
+                decrypted_token = None
+            if decrypted_token != bearer:
+                logger.error("Token mismatch for legacy record")
                 raise HTTPException(status_code=401, detail="Invalid token")
+            # backfill hash
+            legacy.access_token_hash = bearer_hash
+            await legacy.save()
+            token_record = legacy
         
         # Возвращаем user_id из токена
         user_id = token_record.user_id
@@ -220,7 +234,7 @@ async def unlink_user(request: Request, user_id: str = Depends(get_user_from_tok
     try:
         request_id = request.headers.get("X-Request-Id") or str(uuid.uuid4())
         # Удаляем токены пользователя
-        await UserToken.filter(provider="yandex").delete()
+        await UserToken.filter(provider="yandex", user_id=user_id).delete()
         
         return {
             "request_id": request_id,

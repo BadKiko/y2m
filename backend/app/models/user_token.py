@@ -7,6 +7,7 @@ class UserToken(Model):
     user_id = fields.CharField(max_length=128)  # ID пользователя из Яндекс OAuth
     provider = fields.CharField(max_length=32)  # 'yandex'
     access_token = fields.CharField(max_length=2048)
+    access_token_hash = fields.CharField(max_length=64, null=True, index=True)
     refresh_token = fields.CharField(max_length=2048, null=True)
     expires_at = fields.DatetimeField(null=True)
     created_at = fields.DatetimeField(auto_now_add=True)
