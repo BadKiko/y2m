@@ -1,0 +1,84 @@
+version: "3.9"
+
+services:
+  mosquitto:
+    image: eclipse-mosquitto:2
+    container_name: y2m_mosquitto
+    restart: unless-stopped
+    ports:
+      - "${MOSQUITTO_PORT:-1883}:1883"
+      - "${MOSQUITTO_WS_PORT:-9001}:9001"
+    volumes:
+      - ./mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf:ro
+      - mosquitto_data:/mosquitto/data
+      - mosquitto_log:/mosquitto/log
+    networks:
+      - y2m_net
+
+  postgres:
+    image: postgres:16
+    container_name: y2m_postgres
+    restart: unless-stopped
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-y2m}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-y2m}
+      - POSTGRES_DB=${POSTGRES_DB:-y2m}
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - y2m_net
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-y2m} -d ${POSTGRES_DB:-y2m}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    container_name: y2m_backend
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+      mosquitto:
+        condition: service_started
+    env_file:
+      - ../env.local
+    environment:
+      - DATABASE_URL=postgres://${POSTGRES_USER:-y2m}:${POSTGRES_PASSWORD:-y2m}@postgres:5432/${POSTGRES_DB:-y2m}
+      - MQTT_HOST=mosquitto
+      - MQTT_PORT=1883
+    networks:
+      - y2m_net
+    ports:
+      - "${BACKEND_PORT:-8000}:8000"
+
+  web:
+    build:
+      context: ../web
+      dockerfile: Dockerfile
+    container_name: y2m_web
+    restart: unless-stopped
+    depends_on:
+      - backend
+    env_file:
+      - ../env.local
+    networks:
+      - y2m_net
+    ports:
+      - "${WEB_PORT:-5173}:5173"
+
+networks:
+  y2m_net:
+    driver: bridge
+
+volumes:
+  mosquitto_data:
+  mosquitto_log:
+  postgres_data:
+
+

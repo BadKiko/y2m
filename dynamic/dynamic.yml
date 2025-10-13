@@ -1,0 +1,15 @@
+http:
+  routers:
+    y2m-router:
+      rule: "Host(`y2m.badkiko.ru`)"
+      service: "y2m-service"
+      entryPoints:
+        - "websecure"
+      tls:
+        certResolver: "le"
+
+  services:
+    y2m-service:
+      loadBalancer:
+        servers:
+          - url: "http://192.168.0.128:5437"

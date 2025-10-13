@@ -1,0 +1,389 @@
+{
+  "types": [
+    {
+      "type": "devices.types.sensor",
+      "name": "Датчик",
+      "description": "Датчик движения, датчик влажности и другие датчики",
+      "category": "sensors",
+      "capabilities": [],
+      "properties": ["devices.properties.float"]
+    },
+    {
+      "type": "devices.types.sensor.button",
+      "name": "Умная кнопка",
+      "description": "Устройство, которое сообщает о нажатии на кнопку",
+      "category": "sensors",
+      "capabilities": [],
+      "properties": ["devices.properties.event"]
+    },
+    {
+      "type": "devices.types.sensor.climate",
+      "name": "Датчик климата",
+      "description": "Устройство, которое сообщает о температуре и влажности в помещении",
+      "category": "sensors",
+      "capabilities": [],
+      "properties": ["devices.properties.float"]
+    },
+    {
+      "type": "devices.types.sensor.gas",
+      "name": "Датчик газа",
+      "description": "Устройство, которое сообщает о наличии газа в помещении",
+      "category": "sensors",
+      "capabilities": [],
+      "properties": ["devices.properties.event"]
+    },
+    {
+      "type": "devices.types.sensor.illumination",
+      "name": "Датчик освещенности",
+      "description": "Устройство, которое сообщает об уровне освещенности",
+      "category": "sensors",
+      "capabilities": [],
+      "properties": ["devices.properties.float"]
+    },
+    {
+      "type": "devices.types.sensor.motion",
+      "name": "Датчик движения",
+      "description": "Устройство, которое сообщает о наличии движения",
+      "category": "sensors",
+      "capabilities": [],
+      "properties": ["devices.properties.event"]
+    },
+    {
+      "type": "devices.types.sensor.open",
+      "name": "Датчик открытия двери",
+      "description": "Устройство, которое сообщает об открытии/закрытии двери",
+      "category": "sensors",
+      "capabilities": [],
+      "properties": ["devices.properties.event"]
+    },
+    {
+      "type": "devices.types.sensor.smoke",
+      "name": "Датчик дыма",
+      "description": "Устройство, которое сообщает о наличии дыма в помещении",
+      "category": "sensors",
+      "capabilities": [],
+      "properties": ["devices.properties.event"]
+    },
+    {
+      "type": "devices.types.sensor.vibration",
+      "name": "Датчик вибрации",
+      "description": "Устройство, которое сообщает о физическом воздействии: вибрация, падение, переворачивание",
+      "category": "sensors",
+      "capabilities": [],
+      "properties": ["devices.properties.event"]
+    },
+    {
+      "type": "devices.types.sensor.water_leak",
+      "name": "Датчик протечки воды",
+      "description": "Устройство, которое сообщает о протечке воды",
+      "category": "sensors",
+      "capabilities": [],
+      "properties": ["devices.properties.event"]
+    },
+    {
+      "type": "devices.types.smart_meter",
+      "name": "Счетчик",
+      "description": "Устройство, которое измеряет расход чего-либо (универсальный тип для счетчиков)",
+      "category": "meters",
+      "capabilities": [],
+      "properties": ["devices.properties.float"]
+    },
+    {
+      "type": "devices.types.smart_meter.cold_water",
+      "name": "Счетчик холодной воды",
+      "description": "Устройство, которое измеряет расход холодной воды",
+      "category": "meters",
+      "capabilities": [],
+      "properties": ["devices.properties.float"]
+    },
+    {
+      "type": "devices.types.smart_meter.electricity",
+      "name": "Счетчик электроэнергии",
+      "description": "Устройство, которое измеряет расход электроэнергии",
+      "category": "meters",
+      "capabilities": [],
+      "properties": ["devices.properties.float"]
+    },
+    {
+      "type": "devices.types.smart_meter.gas",
+      "name": "Счетчик газа",
+      "description": "Устройство, которое измеряет расход газа",
+      "category": "meters",
+      "capabilities": [],
+      "properties": ["devices.properties.float"]
+    },
+    {
+      "type": "devices.types.smart_meter.heat",
+      "name": "Счетчик тепла",
+      "description": "Устройство, которое измеряет расход тепла",
+      "category": "meters",
+      "capabilities": [],
+      "properties": ["devices.properties.float"]
+    },
+    {
+      "type": "devices.types.smart_meter.hot_water",
+      "name": "Счетчик горячей воды",
+      "description": "Устройство, которое измеряет расход горячей воды",
+      "category": "meters",
+      "capabilities": [],
+      "properties": ["devices.properties.float"]
+    },
+    {
+      "type": "devices.types.camera",
+      "name": "Видеокамера",
+      "description": "Видеокамера, видео-домофон, дверной глазок с камерой",
+      "category": "media",
+      "capabilities": ["devices.capabilities.on_off"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.media_device",
+      "name": "Медиаустройство",
+      "description": "DVD-плеер и другие медиаустройства",
+      "category": "media",
+      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.range", "devices.capabilities.toggle"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.media_device.receiver",
+      "name": "Спутниковый ресивер",
+      "description": "Спутниковый ресивер, ИК-пульт от ресивера, AV-ресивер",
+      "category": "media",
+      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.range", "devices.capabilities.toggle"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.media_device.tv",
+      "name": "Умный телевизор",
+      "description": "Умный телевизор, ИК-пульт от телевизора, медиаприставка, ресивер",
+      "category": "media",
+      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.range", "devices.capabilities.toggle"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.media_device.tv_box",
+      "name": "Умная ТВ-приставка",
+      "description": "Умная ТВ-приставка, ИК-пульт от ТВ-приставки",
+      "category": "media",
+      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.range", "devices.capabilities.toggle"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.cooking",
+      "name": "Кухонная техника",
+      "description": "Холодильник, духовой шкаф",
+      "category": "kitchen",
+      "capabilities": ["devices.capabilities.on_off"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.cooking.coffee_maker",
+      "name": "Кофеварка",
+      "description": "Кофеварка, кофемашина",
+      "category": "kitchen",
+      "capabilities": ["devices.capabilities.on_off"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.cooking.kettle",
+      "name": "Умный чайник",
+      "description": "Умный чайник, термопот",
+      "category": "kitchen",
+      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.range"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.cooking.multicooker",
+      "name": "Мультиварка",
+      "description": "Устройство, которое выполняет функции мультиварки",
+      "category": "kitchen",
+      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.mode"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.dishwasher",
+      "name": "Посудомоечная машина",
+      "description": "Устройство для мытья посуды",
+      "category": "kitchen",
+      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.mode"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.iron",
+      "name": "Утюг",
+      "description": "Утюг, парогенератор",
+      "category": "appliances",
+      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.range"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.vacuum_cleaner",
+      "name": "Робот-пылесос",
+      "description": "Устройство, которое выполняет функцию пылеса",
+      "category": "appliances",
+      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.mode"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.washing_machine",
+      "name": "Стиральная машина",
+      "description": "Устройство для стирки белья",
+      "category": "appliances",
+      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.mode"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.pet_drinking_fountain",
+      "name": "Поилка",
+      "description": "Устройство, которое наполняет водой миску домашнего животного",
+      "category": "pet_devices",
+      "capabilities": ["devices.capabilities.on_off"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.pet_feeder",
+      "name": "Кормушка",
+      "description": "Устройство для кормления домашних животных",
+      "category": "pet_devices",
+      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.mode"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.humidifier",
+      "name": "Увлажнитель воздуха",
+      "description": "Устройство, которое регулирует влажность в помещении",
+      "category": "climate",
+      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.range"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.purifier",
+      "name": "Очиститель воздуха",
+      "description": "Очиститель воздуха, мойка воздуха",
+      "category": "climate",
+      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.mode"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.thermostat",
+      "name": "Термостат",
+      "description": "Водонагреватель, теплый пол, обогреватель, электровентилятор",
+      "category": "climate",
+      "capabilities": ["devices.capabilities.range", "devices.capabilities.mode"],
+      "properties": ["devices.properties.float"]
+    },
+    {
+      "type": "devices.types.thermostat.ac",
+      "name": "Кондиционер",
+      "description": "Устройство для управления микроклиматом в помещении",
+      "category": "climate",
+      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.range", "devices.capabilities.mode"],
+      "properties": ["devices.properties.float"]
+    },
+    {
+      "type": "devices.types.ventilation",
+      "name": "Система вентиляции",
+      "description": "Бризер, вытяжка, система приточной вентиляции",
+      "category": "climate",
+      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.mode"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.ventilation.fan",
+      "name": "Вентилятор",
+      "description": "Устройство, которое выполняет функцию вентилятора",
+      "category": "climate",
+      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.mode"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.light",
+      "name": "Светильник",
+      "description": "Лампочка, светильник, ночник",
+      "category": "lighting",
+      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.color_setting"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.light.lamp",
+      "name": "Настольная лампа",
+      "description": "Устройство, которое выполняет функцию настольного светильника",
+      "category": "lighting",
+      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.color_setting"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.light.ceiling",
+      "name": "Люстра",
+      "description": "Устройство, которое выполняет функцию люстры",
+      "category": "lighting",
+      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.color_setting"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.light.strip",
+      "name": "Диодная лента",
+      "description": "Устройство с управляемой диодной лентой",
+      "category": "lighting",
+      "capabilities": ["devices.capabilities.on_off", "devices.capabilities.color_setting"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.socket",
+      "name": "Умная розетка",
+      "description": "Розетка",
+      "category": "electrical",
+      "capabilities": ["devices.capabilities.on_off"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.switch",
+      "name": "Выключатель",
+      "description": "Настенный выключатель света, тумблер, умная кнопка",
+      "category": "electrical",
+      "capabilities": ["devices.capabilities.on_off"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.switch.relay",
+      "name": "Умное реле",
+      "description": "Автомат в электрическом щитке, умное реле",
+      "category": "electrical",
+      "capabilities": ["devices.capabilities.on_off"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.openable",
+      "name": "Устройство открытия/закрытия",
+      "description": "Дверь, ворота, окно, ставни",
+      "category": "automation",
+      "capabilities": ["devices.capabilities.on_off"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.openable.curtain",
+      "name": "Шторы",
+      "description": "Шторы, жалюзи",
+      "category": "automation",
+      "capabilities": ["devices.capabilities.on_off"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.openable.valve",
+      "name": "Шаровой кран",
+      "description": "Устройство, которое выполняет функцию шарового крана",
+      "category": "automation",
+      "capabilities": ["devices.capabilities.on_off"],
+      "properties": []
+    },
+    {
+      "type": "devices.types.other",
+      "name": "Другое устройство",
+      "description": "Остальные устройства",
+      "category": "other",
+      "capabilities": ["devices.capabilities.on_off"],
+      "properties": []
+    }
+  ]
+}
+
