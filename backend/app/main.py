@@ -18,9 +18,15 @@ app = FastAPI(title="y2m", version="0.1.0")
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[settings.web_url],
+    allow_origins=[
+        settings.web_url,
+        "http://localhost:5173",  # Для локальной разработки
+        "http://localhost:3000",  # Для других портов разработки
+        "http://127.0.0.1:5173",
+        "http://127.0.0.1:3000",
+    ],
     allow_credentials=True,
-    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["Authorization", "Content-Type", "X-Requested-With"],
 )
 

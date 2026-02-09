@@ -6,7 +6,7 @@ class Settings(BaseSettings):
 
     # App
     backend_port: int = 8000
-    web_url: str = "http://localhost:5173"
+    web_url: str = "https://y2m.badkiko.ru"
     base_url: str = "https://y2m.badkiko.ru"
 
     # DB
